@@ -30,14 +30,15 @@ jobs:
           distribution: temurin
           java-version: 21
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
-
       - name: Install dependencies
         run: npm ci
 
       - name: Generate Android project
-        run: npx expo prebuild --platform android --non-interactive
+        run: npx expo prebuild --platform android --no-install
+
+      - name: Make Gradle executable
+        working-directory: android
+        run: chmod +x ./gradlew
 
       - name: Build debug APK
         working-directory: android
