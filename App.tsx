@@ -70,6 +70,7 @@ const SESSION_KEY = 'heroes.mobile.session';
 const PENDING_KEY = 'heroes.mobile.pending.records';
 const DEFAULT_BASE_URL = 'https://heroesdelplaneta.co';
 const REQUEST_TIMEOUT_MS = 15000;
+const INPUT_PLACEHOLDER_COLOR = '#607568';
 
 const emptyRecord = {
   nombre_completo: '',
@@ -340,10 +341,13 @@ export default function App() {
           <Text style={styles.brand}>Héroes del Planeta</Text>
           <Text style={styles.title}>App de sensibilizaciones</Text>
           <Text style={styles.muted}>Inicia sesión con tu usuario sensibilizador y trabaja sin conexión durante la jornada.</Text>
-          <TextInput style={styles.input} value={baseUrl} onChangeText={setBaseUrl} autoCapitalize="none" placeholder="URL del servidor" />
+          <Text style={styles.inputLabel}>URL del servidor</Text>
+          <TextInput style={styles.input} value={baseUrl} onChangeText={setBaseUrl} autoCapitalize="none" placeholder="URL del servidor" placeholderTextColor={INPUT_PLACEHOLDER_COLOR} />
           <Text style={styles.helper}>En Expo Go con celular fisico usa la IP de este computador, por ejemplo http://192.168.1.50:8000.</Text>
-          <TextInput style={styles.input} value={username} onChangeText={setUsername} autoCapitalize="none" placeholder="Usuario" />
-          <TextInput style={styles.input} value={password} onChangeText={setPassword} secureTextEntry placeholder="Contraseña" />
+          <Text style={styles.inputLabel}>Usuario</Text>
+          <TextInput style={styles.input} value={username} onChangeText={setUsername} autoCapitalize="none" placeholder="Usuario" placeholderTextColor={INPUT_PLACEHOLDER_COLOR} />
+          <Text style={styles.inputLabel}>Contraseña</Text>
+          <TextInput style={styles.input} value={password} onChangeText={setPassword} secureTextEntry placeholder="Contraseña" placeholderTextColor={INPUT_PLACEHOLDER_COLOR} />
           <PrimaryButton label={busy ? 'Ingresando...' : 'Iniciar sesión'} onPress={login} disabled={busy} />
         </ScrollView>
       </SafeAreaView>
@@ -388,14 +392,14 @@ export default function App() {
             {!selected.jornada_activa ? (
               <View style={styles.card}>
                 <Text style={styles.sectionTitle}>Iniciar jornada</Text>
-                <TextInput style={styles.input} value={joining.nombre_completo} onChangeText={value => setJoining(current => ({ ...current, nombre_completo: value }))} placeholder="Nombre completo del sensibilizador" />
-                <TextInput style={styles.input} value={joining.numero_cedula} onChangeText={value => setJoining(current => ({ ...current, numero_cedula: value }))} keyboardType="number-pad" placeholder="Número de cédula" />
+                <TextInput style={styles.input} value={joining.nombre_completo} onChangeText={value => setJoining(current => ({ ...current, nombre_completo: value }))} placeholder="Nombre completo del sensibilizador" placeholderTextColor={INPUT_PLACEHOLDER_COLOR} />
+                <TextInput style={styles.input} value={joining.numero_cedula} onChangeText={value => setJoining(current => ({ ...current, numero_cedula: value }))} keyboardType="number-pad" placeholder="Número de cédula" placeholderTextColor={INPUT_PLACEHOLDER_COLOR} />
                 <PrimaryButton label="Aplicar a la sensibilización" onPress={joinSensibilizacion} disabled={busy || !online} />
               </View>
             ) : (
               <View style={styles.card}>
                 <Text style={styles.sectionTitle}>Nuevo registro offline</Text>
-                <TextInput style={styles.input} value={record.nombre_completo} onChangeText={value => updateRecord('nombre_completo', value)} placeholder="Nombre completo *" />
+                <TextInput style={styles.input} value={record.nombre_completo} onChangeText={value => updateRecord('nombre_completo', value)} placeholder="Nombre completo *" placeholderTextColor={INPUT_PLACEHOLDER_COLOR} />
                 <View style={styles.row}>
                   {[
                     ['hombre', 'Hombre'],
@@ -407,10 +411,10 @@ export default function App() {
                     </Pressable>
                   ))}
                 </View>
-                <TextInput style={styles.input} value={record.celular} onChangeText={value => updateRecord('celular', value)} keyboardType="phone-pad" placeholder="Celular" />
-                <TextInput style={styles.input} value={record.codigo} onChangeText={value => updateRecord('codigo', value)} placeholder="Código" />
-                <TextInput style={styles.input} value={record.direccion} onChangeText={value => updateRecord('direccion', value)} placeholder="Dirección *" />
-                <TextInput style={[styles.input, styles.multiline]} value={record.observaciones} onChangeText={value => updateRecord('observaciones', value)} placeholder="Observaciones" multiline />
+                <TextInput style={styles.input} value={record.celular} onChangeText={value => updateRecord('celular', value)} keyboardType="phone-pad" placeholder="Celular" placeholderTextColor={INPUT_PLACEHOLDER_COLOR} />
+                <TextInput style={styles.input} value={record.codigo} onChangeText={value => updateRecord('codigo', value)} placeholder="Código" placeholderTextColor={INPUT_PLACEHOLDER_COLOR} />
+                <TextInput style={styles.input} value={record.direccion} onChangeText={value => updateRecord('direccion', value)} placeholder="Dirección *" placeholderTextColor={INPUT_PLACEHOLDER_COLOR} />
+                <TextInput style={[styles.input, styles.multiline]} value={record.observaciones} onChangeText={value => updateRecord('observaciones', value)} placeholder="Observaciones" placeholderTextColor={INPUT_PLACEHOLDER_COLOR} multiline />
                 <SecondaryButton label={signature ? 'Firma capturada, tocar para repetir' : 'Capturar firma *'} onPress={() => setSignatureOpen(true)} />
                 <PrimaryButton label="Guardar en el dispositivo" onPress={saveOfflineRecord} disabled={busy} />
               </View>
@@ -493,6 +497,7 @@ const styles = StyleSheet.create({
   cardStrong: { color: '#198754', fontSize: 15, fontWeight: '700', marginBottom: 4 },
   sectionTitle: { color: '#143d25', fontSize: 18, fontWeight: '800', marginBottom: 12 },
   badge: { alignSelf: 'flex-start', backgroundColor: '#e9f7ef', color: '#198754', fontWeight: '800', marginTop: 10, paddingHorizontal: 10, paddingVertical: 5, borderRadius: 14 },
+  inputLabel: { color: '#143d25', fontSize: 13, fontWeight: '800', marginBottom: -4 },
   input: { backgroundColor: '#fff', borderColor: '#b9ddc7', borderWidth: 1, borderRadius: 12, padding: 13, marginBottom: 10, color: '#143d25' },
   helper: { color: '#607568', fontSize: 12, lineHeight: 17, marginTop: -4, marginBottom: 8 },
   multiline: { minHeight: 72, textAlignVertical: 'top' },
