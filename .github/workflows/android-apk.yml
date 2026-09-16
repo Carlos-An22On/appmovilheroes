@@ -6,6 +6,9 @@ on:
       - main
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build:
     name: Build APK
@@ -44,8 +47,23 @@ jobs:
         working-directory: android
         run: ./gradlew assembleDebug
 
+      - name: Prepare APK
+        run: |
+          mkdir -p release
+          cp android/app/build/outputs/apk/debug/*.apk release/heroes-planeta-movil.apk
+
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: heroes-planeta-movil-apk
-          path: android/app/build/outputs/apk/debug/*.apk
+          path: release/heroes-planeta-movil.apk
+
+      - name: Publish APK release
+        uses: ncipollo/release-action@v1
+        with:
+          tag: latest-apk
+          name: Heroes del Planeta Movil APK
+          body: APK instalable generado automaticamente desde la rama main.
+          artifacts: release/heroes-planeta-movil.apk
+          allowUpdates: true
+          replacesArtifacts: true
